@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 const ngoPartners = [
   {
     name: "Swacch Association, Nagpur",
-    logo: "https://via.placeholder.com/200", // Replace with a real logo if available
+    logo: "https://placehold.co/200", // Changed placeholder URL
     description: "A trusted organization dedicated to waste management in Nagpur.",
     location: "Nagpur, India",
     specialties: ["Waste Management"],
@@ -17,7 +17,7 @@ const ngoPartners = [
   },
   {
     name: "Arranya Environment Organization",
-    logo: "https://via.placeholder.com/200",
+    logo: "https://placehold.co/200", // Changed placeholder URL
     description: "Committed to sustainable environment practices and recycling.",
     location: "Location not provided",
     specialties: ["Recycling", "Environment"],
@@ -27,7 +27,7 @@ const ngoPartners = [
   },
   {
     name: "Agresar Foundation",
-    logo: "https://via.placeholder.com/200",
+    logo: "https://placehold.co/200", // Changed placeholder URL
     description: "Fostering community initiatives for environmental sustainability.",
     location: "Location not provided",
     specialties: ["Community", "Sustainability"],
@@ -37,7 +37,7 @@ const ngoPartners = [
   },
   {
     name: "Garaj Foundation",
-    logo: "https://via.placeholder.com/200",
+    logo: "https://placehold.co/200", // Changed placeholder URL
     description: "Working to improve waste management and create cleaner communities.",
     location: "Location not provided",
     specialties: ["Waste Management"],

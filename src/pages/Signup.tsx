@@ -1,3 +1,4 @@
+// D:\eco-report-hero\src\pages/Signup.tsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Input } from "../components/ui/input";
@@ -14,13 +15,24 @@ const Signup = () => {
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(""); // Clear previous errors
     try {
       await signup(email, password, role);
-      navigate("/login");
+      // Signup successful, now navigate based on the role selected in the form
+      console.log(`Signup successful for role: ${role}. Navigating...`);
+      if (role === "ngo") {
+        navigate("/NgoDashboard");
+      } else {
+        navigate("/"); // Navigate regular users to the main page
+      }
+      // Optionally, show a success toast/message here
     } catch (err: any) {
-      setError(
-        err.message.includes("exists") ? "Email already exists" : "Signup failed"
-      );
+      console.error("Signup component error:", err); // Log the error for debugging
+      if (err?.message?.includes("User already registered")) {
+        setError("This email address is already registered. Please try logging in.");
+      } else {
+        setError(err?.message || "Signup failed. Please check your details and try again.");
+      }
     }
   };
 
@@ -45,24 +57,25 @@ const Signup = () => {
             required
           />
           <div className="flex gap-4 justify-center">
-            <label className="flex items-center gap-2">
+            <label className="flex items-center gap-2 cursor-pointer">
               <input
                 type="radio"
                 value="user"
                 checked={role === "user"}
                 onChange={() => setRole("user")}
+                className="cursor-pointer"
               />
               Citizen
             </label>
-            <label className="flex items-center gap-2">
-            <input
-              type="radio"
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="radio"
                 value="ngo"
                 checked={role === "ngo"}
                 onChange={() => setRole("ngo")}
-/>
-NGO
-
+                className="cursor-pointer"
+              />
+              NGO
             </label>
           </div>
           <Button className="w-full" type="submit">

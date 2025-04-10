@@ -60,14 +60,25 @@ const HowItWorksSection = () => {
 
   // Function to fetch global stats
   const fetchGlobalStats = async () => {
-    const { data, error } = await supabase
+    const { data, error, status } = await supabase
       .from("stats")
       .select("*")
       .eq("id", "globalStats")
       .single();
-    if (!error && data) {
-      setNgoPartners(data.ngoPartners || 0);
-      setAiAccuracy(data.aiAccuracy || 0);
+
+    if (error) {
+      // Log different messages based on the error type
+      if (status === 404 || status === 406) { // 406: Not a single row
+         console.warn("Global stats data not found or not unique in Supabase 'stats' table (id='globalStats'). Using default values.");
+      } else {
+        console.error("Error fetching global stats:", error);
+      }
+      // Set default values or handle the absence of data gracefully
+      setNgoPartners(0);
+      setAiAccuracy(0);
+    } else if (data) {
+      setNgoPartners(3); // Set NGO partners to 3+
+      setAiAccuracy(82); // Set AI accuracy to 82%
     }
   };
 

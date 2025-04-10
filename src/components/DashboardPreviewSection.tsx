@@ -11,16 +11,18 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   CheckCircle2,
-  Clock,
   ArrowRight,
   BarChart3,
-  MessageSquare,
   Star,
+  Bell,
+  PlusCircle,
 } from "lucide-react";
 import supabase from "../supabaseClient";
+import { Link } from "react-router-dom";
+import type { Report } from "../types/database";
 
 const DashboardPreviewSection = () => {
-  const [userReports, setUserReports] = useState<any[]>([]);
+  const [userReports, setUserReports] = useState<Report[]>([]);
   const [userImpact, setUserImpact] = useState({
     reportsSubmitted: 0,
     reportsSubmittedChange: 0,
@@ -28,35 +30,52 @@ const DashboardPreviewSection = () => {
     leaderboardRank: "#0",
   });
 
-  // Fetch recent reports for the user dashboard preview.
+  // -------------------------
+  // FETCH LATEST 3 REPORTS
+  // -------------------------
   const fetchReports = async () => {
     const { data, error } = await supabase
       .from("reports")
       .select("*")
       .order("created_at", { ascending: false })
-      .limit(3);
+      .limit(3); // Fetch only the latest 3 reports
     if (!error && data) {
       setUserReports(data);
+    } else if (error) {
+      console.error("Error fetching user reports:", error);
     }
   };
 
+  // -------------------------
+  // REALTIME SUBSCRIPTION
+  // -------------------------
   useEffect(() => {
     fetchReports();
     const reportsChannel = supabase
-      .channel("realtime:reports")
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "reports" },
-        () => {
-          fetchReports();
-        }
-      )
+      .channel("realtime:reports-preview")
+      .on("postgres_changes", { event: "*", schema: "public", table: "reports" }, () => {
+        fetchReports();
+      })
       .subscribe();
     return () => {
       supabase.removeChannel(reportsChannel);
     };
   }, []);
 
+  // -------------------------
+  // HANDLERS
+  // -------------------------
+  const handleNotificationsClick = () => {
+    console.log("Notifications clicked");
+  };
+
+  const handleNewReportClick = () => {
+    console.log("New Report clicked");
+  };
+
+  // -------------------------
+  // UI RENDER
+  // -------------------------
   return (
     <section id="dashboard" className="section-padding">
       <div className="container max-w-7xl mx-auto">
@@ -77,16 +96,22 @@ const DashboardPreviewSection = () => {
           <TabsContent value="user" className="space-y-8">
             <Card className="glass-card border-0 overflow-hidden">
               <CardHeader className="border-b border-border pb-4">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-wrap items-center justify-between gap-4">
                   <div>
                     <CardTitle>User Dashboard</CardTitle>
                     <CardDescription>Monitor your reports and impact</CardDescription>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <Button size="sm" variant="outline">
+                  <div className="flex items-center gap-2">
+                    <Button size="sm" variant="outline" onClick={handleNotificationsClick}>
+                      <Bell className="mr-2 h-4 w-4" />
                       Notifications
                     </Button>
-                    <Button size="sm" className="bg-primary hover:bg-primary/90">
+                    <Button
+                      size="sm"
+                      className="bg-primary hover:bg-primary/90"
+                      onClick={handleNewReportClick}
+                    >
+                      <PlusCircle className="mr-2 h-4 w-4" />
                       New Report
                     </Button>
                   </div>
@@ -94,57 +119,62 @@ const DashboardPreviewSection = () => {
               </CardHeader>
               <CardContent className="pt-6">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {/* LEFT: RECENT REPORTS */}
                   <div className="md:col-span-2">
                     <h3 className="text-lg font-medium mb-4">Recent Reports</h3>
                     <div className="space-y-4">
-                      {userReports.map((report, index) => (
-                        <div
-                          key={index}
-                          className="flex gap-4 p-4 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors"
-                        >
-                          <div className="w-24 h-16 rounded-md overflow-hidden">
-                            <img
-                              src={report.image}
-                              alt={report.title}
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                          <div className="flex-1">
-                            <div className="flex justify-between">
-                              <h4 className="font-medium">
-                                {report.title || "Report"}
-                              </h4>
-                              <Badge
-                                variant={
-                                  report.status === "Completed"
-                                    ? "default"
-                                    : "secondary"
-                                }
-                                className={
-                                  report.status === "Completed"
-                                    ? "bg-green-500"
-                                    : ""
-                                }
-                              >
-                                {report.status === "Completed" && (
-                                  <CheckCircle2 className="h-3 w-3 mr-1" />
-                                )}
-                                {report.status}
-                              </Badge>
+                      {userReports.length > 0 ? (
+                        userReports.map((report) => (
+                          <div
+                            key={report.id}
+                            className="flex gap-4 p-6 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors shadow-md"
+                          >
+                            <div className="w-24 h-16 rounded-md overflow-hidden flex-shrink-0 bg-muted">
+                              <img
+                                src={report.photo}
+                                alt={report.description || "Waste report image"}
+                                className="w-full h-full object-cover"
+                                onError={(e) => (e.currentTarget.style.display = "none")}
+                              />
                             </div>
-                            <div className="text-xs text-muted-foreground">
-                              {report.location}
+                            <div className="flex-1 min-w-0">
+                              <div className="flex justify-between items-start">
+                                <h4 className="font-medium truncate">
+                                  {report.description || "Report"}
+                                </h4>
+                                <Badge
+                                  variant={
+                                    report.status === "completed"
+                                      ? "default"
+                                      : "secondary"
+                                  }
+                                  className={
+                                    report.status === "completed"
+                                      ? "bg-green-500/80 text-white flex-shrink-0"
+                                      : "flex-shrink-0"
+                                  }
+                                >
+                                  {report.status.charAt(0).toUpperCase() + report.status.slice(1)}
+                                </Badge>
+                              </div>
+                              <div className="text-xs text-muted-foreground truncate">
+                                {report.location || "Location not provided"}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
+                        ))
+                      ) : (
+                        <p className="text-muted-foreground text-sm">No recent reports found.</p>
+                      )}
                     </div>
-                    <Button variant="link" className="mt-2 text-primary">
-                      View all reports <ArrowRight className="ml-1 h-3 w-3" />
+                    <Button variant="link" className="mt-4 px-0 text-primary" asChild>
+                      <Link to="/all-reports">
+                        View all reports <ArrowRight className="ml-1 h-3 w-3" />
+                      </Link>
                     </Button>
                   </div>
 
-                  {/* Example Impact Cards */}
+                  {/* RIGHT: USER IMPACT */}
                   <div>
                     <h3 className="text-lg font-medium mb-4">Your Impact</h3>
                     <div className="space-y-4">
@@ -181,9 +211,7 @@ const DashboardPreviewSection = () => {
                       <Card className="bg-muted/30">
                         <CardContent className="p-4">
                           <div className="flex items-center justify-between mb-2">
-                            <h4 className="text-sm font-medium">
-                              Leaderboard Rank
-                            </h4>
+                            <h4 className="text-sm font-medium">Leaderboard Rank</h4>
                             <Star className="h-4 w-4 text-muted-foreground" />
                           </div>
                           <p className="text-2xl font-bold">

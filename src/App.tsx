@@ -9,7 +9,8 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
-import NgoDashboard from "./pages/NgoDashboard";  // Now in pages folder
+import NgoDashboardPage from "./pages/NgoDashboard"; // Updated import name
+import AllReports from "./pages/AllReports";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
@@ -25,12 +26,13 @@ const App = () => (
 
         {/* NGO Routes */}
         <Route element={<ProtectedRoute requiredRole="ngo" />}>
-          <Route path="/NgoDashboard" element={<NgoDashboard />} />
+          <Route path="/NgoDashboard" element={<NgoDashboardPage />} /> {/* Updated element */}
         </Route>
 
         {/* Regular User Routes */}
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Index />} />
+          <Route path="/all-reports" element={<AllReports />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />

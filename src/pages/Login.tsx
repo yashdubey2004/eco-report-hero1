@@ -15,7 +15,7 @@ const Login = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      // Instead of reading context.role directly, use the returned role
+      // Login returns the fetched role from the profile
       const returnedRole = await login(email, password);
       console.log("Returned role from login function:", returnedRole);
       navigate(returnedRole === "ngo" ? "/NgoDashboard" : "/");
