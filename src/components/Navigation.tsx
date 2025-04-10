@@ -1,10 +1,12 @@
-
+import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Menu } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const Navigation = () => {
+  const { user, logout } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -29,7 +31,7 @@ const Navigation = () => {
           <div className="w-8 h-8 rounded-full eco-gradient flex items-center justify-center">
             <span className="text-white font-bold">E</span>
           </div>
-          <span className="font-bold text-lg">EcoReportHero</span>
+          <span className="font-bold text-lg">EcoLink</span>
         </div>
         
         {/* Desktop Navigation */}
@@ -42,10 +44,35 @@ const Navigation = () => {
         </nav>
         
         <div className="hidden md:flex items-center gap-4">
-          <Button variant="outline" className="text-sm">Login</Button>
-          <Button className="text-sm bg-primary hover:bg-primary/90">Sign Up</Button>
+          {user ? (
+            <div className="flex items-center gap-4">
+              {user.role === 'ngo' && (
+                <Link to="/ngo-dashboard">
+                  <Button variant="ghost" className="text-sm">
+                    Dashboard
+                  </Button>
+                </Link>
+              )}
+              <Button 
+                onClick={logout} 
+                variant="outline" 
+                className="text-sm"
+              >
+                Logout
+              </Button>
+            </div>
+          ) : (
+            <>
+              <Link to="/login">
+                <Button variant="outline" className="text-sm">Login</Button>
+              </Link>
+              <Link to="/signup">
+                <Button className="text-sm bg-primary hover:bg-primary/90">Sign Up</Button>
+              </Link>
+            </>
+          )}
         </div>
-        
+
         {/* Mobile Navigation Toggle */}
         <Button 
           variant="ghost" 
@@ -67,10 +94,26 @@ const Navigation = () => {
             <a href="#ngo-partners" className="px-4 py-2 hover:bg-muted rounded-md transition-colors">NGO Partners</a>
             <a href="#dashboard" className="px-4 py-2 hover:bg-muted rounded-md transition-colors">Dashboard</a>
             
-            <div className="flex gap-2 mt-2 px-4">
-              <Button variant="outline" className="flex-1">Login</Button>
-              <Button className="flex-1 bg-primary hover:bg-primary/90">Sign Up</Button>
-            </div>
+            {user ? (
+              <div className="flex gap-2 mt-2 px-4">
+                <Button 
+                  onClick={logout} 
+                  variant="outline" 
+                  className="w-full"
+                >
+                  Logout
+                </Button>
+              </div>
+            ) : (
+              <div className="flex gap-2 mt-2 px-4">
+                <Link to="/login" className="flex-1">
+                  <Button variant="outline" className="w-full">Login</Button>
+                </Link>
+                <Link to="/signup" className="flex-1">
+                  <Button className="w-full bg-primary hover:bg-primary/90">Sign Up</Button>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       )}

@@ -1,4 +1,3 @@
-
 import { Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -60,15 +59,21 @@ const FooterSection = () => {
             <ul className="space-y-2 text-sm">
               <li className="flex items-center gap-2 text-muted-foreground">
                 <Mail className="h-4 w-4" />
-                <span>contact@ecoreport.hero</span>
+                <span>dubeyys@rknec.edu</span>
               </li>
               <li className="flex items-center gap-2 text-muted-foreground">
                 <Phone className="h-4 w-4" />
-                <span>+1 (555) 123-4567</span>
+                <span>7020014909</span>
               </li>
               <li className="flex items-start gap-2 text-muted-foreground">
                 <MapPin className="h-4 w-4 mt-0.5" />
-                <span>123 Green Street, San Francisco, CA 94123</span>
+                <span>Boys Hostel, RBU, Nagpur</span>
+              </li>
+              {/* Your Details */}
+              <li className="flex flex-col text-muted-foreground">
+                
+                <span></span>
+                <span></span>
               </li>
             </ul>
           </div>
@@ -76,7 +81,7 @@ const FooterSection = () => {
 
         <div className="border-t border-border pt-6 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-muted-foreground mb-4 md:mb-0">
-            &copy; {new Date().getFullYear()} EcoReportHero. All rights reserved.
+            &copy; {new Date().getFullYear()} EcoLink. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
             <Button variant="link" className="text-sm p-0 h-auto text-muted-foreground hover:text-primary">

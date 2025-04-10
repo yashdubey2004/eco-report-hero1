@@ -1,6 +1,9 @@
-
+import { Link as ScrollLink } from "react-scroll";
 import { Button } from '@/components/ui/button';
 import { ArrowDown } from 'lucide-react';
+import { Link } from 'react-router-dom'
+
+
 
 const HeroSection = () => {
   return (
@@ -28,12 +31,18 @@ const HeroSection = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start">
-              <Button size="lg" className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-white">
+            <ScrollLink to="report" smooth={true} duration={600} offset={-70}>
+              <Button className="bg-primary text-white px-6 py-3 rounded-lg shadow hover:bg-primary/90 transition">
                 Get Started
               </Button>
-              <Button size="lg" variant="outline" className="w-full sm:w-auto">
-                Learn More
-              </Button>
+            </ScrollLink>
+
+            <Button asChild>
+          <a href="#how-it-works" className="scroll-smooth">
+              Learn More
+          </a>
+            </Button>
+
             </div>
           </div>
           

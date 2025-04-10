@@ -1,4 +1,3 @@
-
 import Navigation from "@/components/Navigation";
 import HeroSection from "@/components/HeroSection";
 import ReportSection from "@/components/ReportSection";

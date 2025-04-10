@@ -1,10 +1,16 @@
+// D:\eco-report-hero\src\App.tsx
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
+
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
+import NgoDashboard from "./pages/NgoDashboard";  // Now in pages folder
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -13,13 +19,22 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <Routes>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+
+        {/* NGO Routes */}
+        <Route element={<ProtectedRoute requiredRole="ngo" />}>
+          <Route path="/NgoDashboard" element={<NgoDashboard />} />
+        </Route>
+
+        {/* Regular User Routes */}
+        <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+        </Route>
+
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </TooltipProvider>
   </QueryClientProvider>
 );
