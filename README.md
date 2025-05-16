@@ -1,6 +1,6 @@
-# ♻️ Eclolink – Bridging Citizens and NGOs for Cleaner Communities
+# ♻️ Ecolink – Bridging Citizens and NGOs for Cleaner Communities
 
-**Eclolink** is a web-based platform that empowers citizens to report garbage and plastic waste in public spaces by uploading photos and location data. The platform automatically notifies nearby NGOs, who collect the waste and mark it as resolved — promoting transparency, accountability, and a cleaner environment.
+**Ecolink** is a web-based platform that empowers citizens to report garbage and plastic waste in public spaces by uploading photos and location data. The platform automatically notifies nearby NGOs, who collect the waste and mark it as resolved — promoting transparency, accountability, and a cleaner environment.
 
 ---
 
