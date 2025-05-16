@@ -1,73 +1,51 @@
-# Welcome to your Lovable project
+# ♻️ Eclolink – Bridging Citizens and NGOs for Cleaner Communities
 
-## Project info
+**Eclolink** is a web-based platform that empowers citizens to report garbage and plastic waste in public spaces by uploading photos and location data. The platform automatically notifies nearby NGOs, who collect the waste and mark it as resolved — promoting transparency, accountability, and a cleaner environment.
 
-**URL**: https://lovable.dev/projects/2885e5e7-3d3d-49ec-9c24-3156ec9cc8c1
+---
 
-## How can I edit this code?
+## 🌟 Features
 
-There are several ways of editing your application.
+- 🔐 **Dual Login System**  
+  Separate, role-based logins for Citizens and NGOs with customized dashboards.
 
-**Use Lovable**
+- 📍 **Geo-tagged Photo Reporting**  
+  Citizens upload photos; the app auto-fetches their location to accurately report garbage sites.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/2885e5e7-3d3d-49ec-9c24-3156ec9cc8c1) and start prompting.
+- 🗂️ **Real-Time Dashboard**  
+  - **Citizen View:** Track status of submitted reports.  
+  - **NGO View:** See new reports with locations and mark them as completed after collection.
 
-Changes made via Lovable will be committed automatically to this repo.
+- 🔔 **Instant Notifications**  
+  Users are notified when their report is picked up and resolved by an NGO.
 
-**Use your preferred IDE**
+- 🏢 **NGO Directory**  
+  A section listing all associated NGOs, including their focus areas, contact info, and locations.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- 🚀 **Scalable Architecture**  
+  Designed to support AI-based waste classification, leaderboards, gamification, and real-time chat in future updates.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+---
 
-Follow these steps:
+## 🔧 Tech Stack
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+- **Frontend:** Next.js / React  
+- **Styling:** Tailwind CSS  
+- **Authentication & Backend:** Firebase Authentication + Firestore  
+- **Location Services:** HTML Geolocation API  
+- **Hosting:** Firebase Hosting (or Vercel)
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+---
 
-# Step 3: Install the necessary dependencies.
-npm i
+## 🧭 How It Works
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+1. **Citizen uploads photo** → location is auto-fetched.  
+2. **Report is sent** to nearby NGOs based on area.  
+3. **NGO receives it** on a real-time dashboard.  
+4. **NGO collects waste** and marks it as resolved.  
+5. **Citizen is notified** of the resolution.
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 📁 Project Structure (Simplified)
 
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/2885e5e7-3d3d-49ec-9c24-3156ec9cc8c1) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes it is!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
